@@ -1,3 +1,4 @@
+// Fonction qui créé le html nécéssaire
 function postGallery(listProjects) {
     const gallery = document.querySelector(".gallery")
     gallery.innerHTML = ""
@@ -19,7 +20,6 @@ function postGallery(listProjects) {
 }
 
 // Récupération des projets pour les afficher dynamiquement avec javascript
-
 fetch("http://localhost:5678/api/works")
     .then(listProjects => {
         return listProjects.json()
@@ -30,7 +30,6 @@ fetch("http://localhost:5678/api/works")
     postGallery(listProjects)
 
     // Création de la partie filtre
-
     const categories = new Set()
 
     categories.add("Tous")
@@ -42,7 +41,8 @@ fetch("http://localhost:5678/api/works")
     const listFilters = document.createElement("ul")
 
     filters.appendChild(listFilters)
-
+    
+    // On boucle et on créé une liste pour chaque catégorie
     for (let item of categories) {
         const listCat = document.createElement("li")
         listCat.innerText = item
@@ -52,7 +52,6 @@ fetch("http://localhost:5678/api/works")
         }
 
         listCat.addEventListener("click", () => {
-
             document.querySelectorAll(".filters li").forEach(li => li.classList.remove("selected"))
             listCat.classList.add("selected")
 

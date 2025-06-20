@@ -7,9 +7,10 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="javascript/scripts.js"></script>
+	<script src="javascript/modal.js" defer></script>
 	<script src="javascript/projets.js" defer></script>
 </head>
 <body>
@@ -37,7 +38,35 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="title-projets">
+			<h2>Mes Projets</h2>
+			<a href="#modal1" class="open-modal"> <i class="fa-regular fa-pen-to-square"></i> modifier</a>
+		</div>
+
+		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal">
+			<div class="modal-wrapper">
+				<button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+				<h3 id="titlemodal">Galerie photo</h3>
+				<div class="contenu">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+				</div>
+				<button class="btn-add-photo">Ajouter une photo</button>
+			</div>
+			<div class="add-photo-view" style="display: none;">
+				<h3 id="titlemodal">Ajout photo</h3>
+			</div>
+		</aside>
+
+		<!-- <aside>
+			<div class="modal-wrapper2">
+				<h3 id="titlemodal">Ajout photo</h3>
+				<div class="contenu">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+				</div>
+				<button class="btnValider">Valider</button>
+			</div>
+		</aside> -->
+
 		<div class="filters"></div>
 		<div class="gallery"></div>
 	</section>
