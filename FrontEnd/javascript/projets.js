@@ -1,75 +1,92 @@
-// Fonction qui créé le html nécéssaire
-function postGallery(listProjects) {
-    const gallery = document.querySelector(".gallery")
-    gallery.innerHTML = ""
+// Fonction qui affiche la partie edit avec le lien "modifier" visible
+function showEditLinkIfLoggedIn() {
+  const token = localStorage.getItem("token");
+  const editLink = document.querySelector(".title-projets a");
 
-    listProjects.forEach(project => {
-    const figure = document.createElement("figure")
+  if (token && editLink) {
+    editLink.style.display = "inline";
+  } else if (editLink) {
+    editLink.style.display = "none";
+  }
+}
 
-    const img = document.createElement("img")
-    img.src = project.imageUrl
-    img.alt = project.title
+showEditLinkIfLoggedIn();
 
-    const caption = document.createElement("figcaption")
-    caption.innerText = project.title
+// Fonction qui créé la galerie
+function createGallery(listProjects) {
+  const gallery = document.querySelector(".gallery");
+  gallery.innerHTML = "";
 
-    figure.appendChild(img)
-    figure.appendChild(caption)
-    gallery.appendChild(figure)
-    })
+  listProjects.forEach((project) => {
+    const figure = document.createElement("figure");
+    
+    const img = document.createElement("img");
+    img.src = project.imageUrl;
+    img.alt = project.title;
+    
+    const caption = document.createElement("figcaption");
+    caption.innerText = project.title;
+    
+    figure.appendChild(img);
+    figure.appendChild(caption);
+    gallery.appendChild(figure);
+  });
 }
 
 // Récupération des projets pour les afficher dynamiquement avec javascript
-fetch("http://localhost:5678/api/works")
-    .then(listProjects => {
-        return listProjects.json()
-    })
-    .then(function createFunction1(listProjects) {
-        console.log(listProjects)
+function projectsFilter() {
+  fetch("http://localhost:5678/api/works")
+  .then((listProjects) => {
+    return listProjects.json();
+  })
+  .then(function createLists(listProjects) {
 
-    postGallery(listProjects)
+    createGallery(listProjects);
 
     // Création de la partie filtre
-    const categories = new Set()
+    const categories = new Set();
 
-    categories.add("Tous")
+    categories.add("Tous");
 
-    listProjects.forEach(project => categories.add(project.category.name))
-        console.log(categories)
+    listProjects.forEach((project) => categories.add(project.category.name));
 
-    const filters = document.querySelector(".filters")
-    const listFilters = document.createElement("ul")
+    const filters = document.querySelector(".filters");
+    const listFilters = document.createElement("ul");
 
-    filters.appendChild(listFilters)
-    
+    filters.appendChild(listFilters);
+
     // On boucle et on créé une liste pour chaque catégorie
-    for (let item of categories) {
-        const listCat = document.createElement("li")
-        listCat.innerText = item
+    for (let category of categories) {
+      const listCategory = document.createElement("li");
+      listCategory.innerText = category;
 
-        if (item === "Tous") {
-            listCat.classList.add("selected")
+      if (category === "Tous") {
+        listCategory.classList.add("selected");
+      }
+
+      listCategory.addEventListener("click", () => {
+        document
+          .querySelectorAll(".filters li")
+          .forEach((li) => li.classList.remove("selected"));
+        listCategory.classList.add("selected");
+
+        if (category === "Tous") {
+          createGallery(listProjects);
+        } else {
+          const filters = listProjects.filter(function (project) {
+            return project.category.name === category;
+          });
+          createGallery(filters);
         }
-
-        listCat.addEventListener("click", () => {
-            document.querySelectorAll(".filters li").forEach(li => li.classList.remove("selected"))
-            listCat.classList.add("selected")
-
-            if (item === "Tous") {
-                postGallery(listProjects)
-            } else {
-                const objects = listProjects.filter(function (project) {
-                    return project.category.name === item
-                });
-                postGallery(objects)
-            }
-        })
-        listFilters.appendChild(listCat)
+      });
+      listFilters.appendChild(listCategory);
     }
-    })
+  })
 
-    .catch(error => {
-        console.error("Erreur lors du fetch :", error)
-    });
+  .catch((error) => {
+    console.error("Erreur lors du fetch :", error);
+  });
+}
 
-
+// Fonction qui gère la partie filtre
+projectsFilter()

@@ -10,17 +10,17 @@
 	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="javascript/modal.js" defer></script>
 	<script src="javascript/projets.js" defer></script>
+	<script src="javascript/modal.js" defer></script>
 </head>
 <body>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
+			<li><a href="#portfolio">projets</a></li>
+			<li><a href="#contact">contact</a></li>
+			<li><a href="login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -40,32 +40,53 @@
 	<section id="portfolio">
 		<div class="title-projets">
 			<h2>Mes Projets</h2>
-			<a href="#modal1" class="open-modal"> <i class="fa-regular fa-pen-to-square"></i> modifier</a>
+			<a href="#modal1" class="open-modal" id="edit-link"> <i class="fa-regular fa-pen-to-square"></i> modifier</a>
 		</div>
 
 		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal">
 			<div class="modal-wrapper">
-				<button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
-				<h3 id="titlemodal">Galerie photo</h3>
-				<div class="contenu">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+				<div class="gallery-view">
+					<button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+					<h3 id="titlemodal">Galerie photo</h3>
+					<div class="modif-gallery">
+					</div>
+					<button class="btn-add-photo">Ajouter une photo</button>
 				</div>
-				<button class="btn-add-photo">Ajouter une photo</button>
-			</div>
-			<div class="add-photo-view" style="display: none;">
-				<h3 id="titlemodal">Ajout photo</h3>
+				<div class="add-photo-view" style="display: none;">
+					<div class="btns">
+						<button class="back-to-gallery"><i class="fa-solid fa-arrow-left"></i></button>
+						<button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<h3 id="titlemodal">Ajout photo</h3>
+					<div class="modal-form">
+						<form action="#" method="post">
+
+							<div class="upload-container">
+								<div class="contain-icon">
+									<i class="fa-regular fa-image"></i>
+								</div>
+								<label for="file-upload" class="upload-button">+ Ajouter une photo</label>
+								<input type="file" id="file-upload" name="image" accept="image/png, image/jpeg" >
+								<p class="upload-info">jpg, png : 4mo max</p>
+								<img class="image-preview" src="" alt="Aperçu">
+							</div>
+
+							<label for="title">Titre</label>
+							<input type="texte" name="title" id="title" >
+
+							<label for="category">Catégorie</label>
+							<select name="category" id="category" class="menu-category" >
+							</select>
+							<p class="form-error">Veuillez remplir tous les champs</p>
+							<div class="container-btn">
+								<button type="submit" class="valid-add">Valider</button>
+							</div>
+
+						</form>
+					</div>
+				</div>
 			</div>
 		</aside>
-
-		<!-- <aside>
-			<div class="modal-wrapper2">
-				<h3 id="titlemodal">Ajout photo</h3>
-				<div class="contenu">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-				</div>
-				<button class="btnValider">Valider</button>
-			</div>
-		</aside> -->
 
 		<div class="filters"></div>
 		<div class="gallery"></div>

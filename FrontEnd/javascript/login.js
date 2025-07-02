@@ -21,7 +21,6 @@ formLogin.addEventListener("submit", (event) => {
         })
 
         .then(data => {
-            console.log("Données reçues:", data)
             localStorage.setItem("token", data.token)
             window.location.href = "index.html"
         })
