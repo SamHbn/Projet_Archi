@@ -1,6 +1,8 @@
 let modal = null;
 
-const openModalVue1 = function () {
+import { createGallery } from "./projets.js";
+
+function openModalVue1() {
   const modal = document.querySelector(".modal");
   modal.style.display = "flex";
   modal.setAttribute("aria-hidden", "false");
@@ -9,25 +11,25 @@ const openModalVue1 = function () {
   const addPhotoView = document.querySelector(".add-photo-view");
   galleryView.style.display = "flex";
   addPhotoView.style.display = "none";
-};
+}
 
-const closeModal = function () {
+function closeModal() {
   const modal = document.querySelector(".modal");
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
-};
+}
 
-const openModalVue2 = function () {
+function openModalVue2() {
   const galleryView = document.querySelector(".gallery-view");
   const addPhotoView = document.querySelector(".add-photo-view");
   galleryView.style.display = "none";
   addPhotoView.style.display = "flex";
-};
+}
 
-const backToGallery = function () {
+function backToGallery() {
   document.querySelector(".gallery-view").style.display = "flex";
   document.querySelector(".add-photo-view").style.display = "none";
-};
+}
 
 openCloseModal();
 addImageProject();
@@ -95,6 +97,11 @@ function modalGallery(listProjects) {
           }
           if (response.status === 204) {
             e.target.closest("figure").remove();
+
+            // Affiche dynamiquement la galerie
+            listProjects = listProjects.filter((project) => project.id != id);
+            createGallery(listProjects);
+
             return;
           }
 
@@ -169,8 +176,8 @@ function selectCategory() {
 const form = document.querySelector("form");
 const button = document.querySelector(".valid-add");
 
-listenerInput()
-listenerSubmit()
+listenerInput();
+listenerSubmit();
 
 // Fonction qui vérifie si les champs sont correctement remplis
 function listenerInput() {
@@ -188,45 +195,45 @@ function listenerInput() {
 }
 
 // Fonction qui vérifie si tous les champs sont remplis avant d'envoyer le nouveau projet
+// Sinon message d'erreur
 function listenerSubmit() {
   form.addEventListener("submit", async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  const image = document.querySelector("#file-upload").files[0];
-  const title = document.querySelector("#title").value.trim();
-  const category = document.querySelector("#category").value;
-  const token = localStorage.getItem("token");
+    const image = document.querySelector("#file-upload").files[0];
+    const title = document.querySelector("#title").value.trim();
+    const category = document.querySelector("#category").value;
+    const token = localStorage.getItem("token");
 
-  const errorMsg = document.querySelector(".form-error");
+    const errorMsg = document.querySelector(".form-error");
 
-  if (!image || !title || !category) {
-    errorMsg.style.display = "block";
-    return;
-  } else {
-    errorMsg.style.display = "none";
-  }
-
-  const formData = new FormData();
-  formData.append("image", image);
-  formData.append("title", title);
-  formData.append("category", category);
-
-  try {
-    const response = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("Erreur lors de l'envoi : " + response.status);
+    if (!image || !title || !category) {
+      errorMsg.style.display = "block";
+      return;
+    } else {
+      errorMsg.style.display = "none";
     }
-  } catch (error) {
-    console.error("Erreur lors de l’envoi :", error);
-    alert("Erreur lors de l’ajout du projet.");
-  }
-});
-}
 
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("category", category);
+
+    try {
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'envoi : " + response.status);
+      }
+    } catch (error) {
+      console.error("Erreur lors de l’envoi :", error);
+      alert("Erreur lors de l’ajout du projet.");
+    }
+  });
+}
