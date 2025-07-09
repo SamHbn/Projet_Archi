@@ -10,8 +10,8 @@
 	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src="javascript/projets.js" defer></script>
-	<script type="module" src="javascript/modal.js" defer></script>
+	<script type="module" src="javascript/projets.js"></script>
+	<script type="module" src="javascript/modal.js"></script>
 </head>
 <body>
 <header>
@@ -43,7 +43,7 @@
 			<a href="#modal1" class="open-modal" id="edit-link"> <i class="fa-regular fa-pen-to-square"></i> modifier</a>
 		</div>
 
-		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal">
+		<aside id="modal1" class="modal" aria-hidden="true" aria-labelledby="titlemodal">
 			<div class="modal-wrapper">
 				<div class="gallery-view">
 					<button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
@@ -57,7 +57,7 @@
 						<button class="back-to-gallery"><i class="fa-solid fa-arrow-left"></i></button>
 						<button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
 					</div>
-					<h3 id="titlemodal">Ajout photo</h3>
+					<h3 id="titlemodal2">Ajout photo</h3>
 					<div class="modal-form">
 						<form action="#" method="post">
 
@@ -72,7 +72,7 @@
 							</div>
 
 							<label for="title">Titre</label>
-							<input type="texte" name="title" id="title" >
+							<input type="text" name="title" id="title" >
 
 							<label for="category">Catégorie</label>
 							<select name="category" id="category" class="menu-category" >

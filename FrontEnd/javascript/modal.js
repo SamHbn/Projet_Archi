@@ -1,4 +1,4 @@
-let modal = null;
+let listProjects = [];
 
 import { createGallery } from "./projets.js";
 
@@ -6,7 +6,7 @@ function openModalVue1() {
   const modal = document.querySelector(".modal");
   modal.style.display = "flex";
   modal.setAttribute("aria-hidden", "false");
-  // La modale s'ouvre automatiquement sur la vue gallery
+  // La modale s'ouvre automatiquement sur la vue galerie
   const galleryView = document.querySelector(".gallery-view");
   const addPhotoView = document.querySelector(".add-photo-view");
   galleryView.style.display = "flex";
@@ -80,36 +80,29 @@ function modalGallery(listProjects) {
     trash.classList.add("fa-solid", "fa-trash-can");
     trash.dataset.id = project.id;
 
-    trash.addEventListener("click", (e) => {
+    trash.addEventListener("click", async (e) => {
       const id = e.target.dataset.id;
       const token = localStorage.getItem("token");
 
-      fetch(`http://localhost:5678/api/works/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Erreur ${response.status}`);
-          }
-          if (response.status === 204) {
-            e.target.closest("figure").remove();
-
-            // Affiche dynamiquement la galerie
-            listProjects = listProjects.filter((project) => project.id != id);
-            createGallery(listProjects);
-
-            return;
-          }
-
-          return response.json();
-        })
-        .catch((err) => {
-          console.error("Échec :", err.message);
+      try {
+        const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         });
+
+        if (!response.ok) {
+          throw new Error(`Erreur ${response.status}`);
+        }
+
+        if (response.status === 204) {
+          await refreshProjects();
+        }
+      } catch (err) {
+        console.error("Échec :", err.message);
+      }
     });
 
     figure.appendChild(trash);
@@ -121,7 +114,8 @@ function addImageProject() {
     .then((listProjects) => {
       return listProjects.json();
     })
-    .then(function createLists(listProjects) {
+    .then(function createLists(data) {
+      listProjects = data;
       modalGallery(listProjects);
     });
 
@@ -231,9 +225,34 @@ function listenerSubmit() {
       if (!response.ok) {
         throw new Error("Erreur lors de l'envoi : " + response.status);
       }
+
+      const newProject = await response.json();
+      await refreshProjects();
+      closeModal();
+
+      form.reset();
+      button.classList.remove("enable");
+      document.querySelector(".image-preview").style.display = "none";
+      document.querySelector(".contain-icon").style.display = "block";
+      document.querySelector(".upload-button").style.display = "block";
+      document.querySelector(".upload-info").style.display = "block";
+      document.querySelector("#category").value = "";
     } catch (error) {
       console.error("Erreur lors de l’envoi :", error);
       alert("Erreur lors de l’ajout du projet.");
     }
   });
+}
+
+async function refreshProjects() {
+  try {
+    const res = await fetch("http://localhost:5678/api/works");
+    if (!res.ok)
+      throw new Error("Erreur lors du rafraîchissement de la galerie");
+    listProjects = await res.json();
+    createGallery(listProjects);
+    modalGallery(listProjects);
+  } catch (error) {
+    console.error(error);
+  }
 }

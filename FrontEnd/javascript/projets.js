@@ -12,8 +12,6 @@ function showEditLinkIfLoggedIn() {
 
 showEditLinkIfLoggedIn()
 
-
-
 // Fonction qui créé la galerie
 export function createGallery(listProjects) {
   const gallery = document.querySelector(".gallery");
@@ -91,14 +89,3 @@ function projectsFilter() {
 
 // Fonction qui gère la partie filtre
 projectsFilter();
-
-// export function updateGallery() {
-//   fetch("http://localhost:5678/api/works")
-//     .then((response) => response.json())
-//     .then((listProjects) => {
-//       createGallery(listProjects);
-//     })
-//     .catch((error) => {
-//       console.error("Erreur lors du rafraîchissement de la galerie :", error);
-//     });
-// }
