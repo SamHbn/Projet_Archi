@@ -12,7 +12,7 @@ function showEditLinkIfLoggedIn() {
 
 showEditLinkIfLoggedIn()
 
-// Fonction qui créé la galerie
+// Création la galerie
 export function createGallery(listProjects) {
   const gallery = document.querySelector(".gallery");
   gallery.innerHTML = "";

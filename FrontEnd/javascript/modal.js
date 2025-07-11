@@ -11,6 +11,8 @@ function openModalVue1() {
   const addPhotoView = document.querySelector(".add-photo-view");
   galleryView.style.display = "flex";
   addPhotoView.style.display = "none";
+
+  loadGalleryModalOpen();
 }
 
 function closeModal() {
@@ -32,7 +34,7 @@ function backToGallery() {
 }
 
 openCloseModal();
-addImageProject();
+uploadImage();
 selectCategory();
 
 function openCloseModal() {
@@ -59,7 +61,19 @@ function openCloseModal() {
   });
 }
 
-// Récuperation de la gallerie pour l'afficher dans la modale
+// Chargement de la galerie dans la modale
+function loadGalleryModalOpen() {
+  fetch("http://localhost:5678/api/works")
+    .then((response) => {
+      return response.json();
+    })
+    .then(function createLists(data) {
+      listProjects = data;
+      modalGallery(listProjects);
+    });
+}
+
+// Modification de la galerie pour l'afficher dans la modale
 function modalGallery(listProjects) {
   const modifGallery = document.querySelector(".modif-gallery");
   modifGallery.innerHTML = "";
@@ -109,17 +123,8 @@ function modalGallery(listProjects) {
   });
 }
 
-function addImageProject() {
-  fetch("http://localhost:5678/api/works")
-    .then((listProjects) => {
-      return listProjects.json();
-    })
-    .then(function createLists(data) {
-      listProjects = data;
-      modalGallery(listProjects);
-    });
-
-  // Upload de l'image et changement d'affichage
+// Upload de l'image et changement d'affichage
+function uploadImage() {
   document
     .getElementById("file-upload")
     .addEventListener("change", function (e) {
@@ -131,7 +136,6 @@ function addImageProject() {
           previewImg.src = event.target.result;
           previewImg.style.display = "block";
 
-          // Masquer les autres éléments dans upload-container
           document.querySelector(".contain-icon").style.display = "none";
           document.querySelector(".upload-button").style.display = "none";
           document.querySelector(".upload-info").style.display = "none";
@@ -198,7 +202,6 @@ function listenerSubmit() {
     const title = document.querySelector("#title").value.trim();
     const category = document.querySelector("#category").value;
     const token = localStorage.getItem("token");
-
     const errorMsg = document.querySelector(".form-error");
 
     if (!image || !title || !category) {
@@ -226,7 +229,6 @@ function listenerSubmit() {
         throw new Error("Erreur lors de l'envoi : " + response.status);
       }
 
-      const newProject = await response.json();
       await refreshProjects();
       closeModal();
 
