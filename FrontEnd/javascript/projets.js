@@ -10,6 +10,55 @@ function showEditLinkIfLoggedIn() {
   }
 }
 
+function editPage() {
+  const token = localStorage.getItem("token")
+  const logout = document.getElementById("logout")
+
+  if (token) {
+    logout.textContent = "logout"
+    logout.href = "#"
+    logout.addEventListener("click", (e) => {
+      e.preventDefault()
+      localStorage.removeItem("token")
+      window.location.reload()
+    })
+  } else {
+    logout.textContent = "login"
+    logout.href = "login.html"
+  }
+}
+
+function editMod() {
+  const token = localStorage.getItem("token");
+  const listFilters = document.querySelector(".filters");
+
+  if (token) {
+    // Crée le bandeau uniquement s'il n'existe pas déjà
+    if (!document.querySelector(".edit-banner")) {
+      const banner = document.createElement("div");
+      banner.className = "edit-banner";
+      banner.innerHTML = '<i class="fa-regular fa-pen-to-square" style="margin-right: 8px;"></i> Mode édition';
+      document.body.prepend(banner);
+
+      // Décale le reste du contenu vers le bas
+      document.body.style.paddingTop = "50px";
+    }
+
+    listFilters.style.display = "none";
+  } else {
+    // Supprime le bandeau et réinitialise le style
+    const banner = document.querySelector(".edit-banner");
+    if (banner) {
+      banner.remove();
+      document.body.style.paddingTop = "0px";
+    }
+
+    listFilters.style.display = "block";
+  }
+}
+
+editPage()
+editMod()
 showEditLinkIfLoggedIn()
 
 // Création la galerie

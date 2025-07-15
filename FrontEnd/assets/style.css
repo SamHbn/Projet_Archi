@@ -64,6 +64,19 @@ header {
 	margin: 50px 0 130px 0
 }
 
+.edit-banner {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 60px;
+	background-color: black;
+	color: white;
+	text-align: center;
+	line-height: 60px;
+	z-index: 1000;
+}
+
 header li {
 	display: flex;
 	align-items: center;
